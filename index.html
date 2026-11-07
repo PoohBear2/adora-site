@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Adora finds the short videos winning in your niche, tells you what to film, and cuts your takes into 100 finished ad variations. Runs on your machine.">
+<style>html{color-scheme:light dark}body{margin:0}img{max-width:100%}</style>
+<title>Adora</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#f6f3ee; --fg:#17171a; --muted:#5e5b57; --line:#d9d3ca; --panel:#ffffff;
+  --accent:#d6451a; --accent-ink:#ffffff; --tc:#8a8580;
+  --display:"Bricolage Grotesque",Georgia,serif; --body:"Instrument Sans",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121214;--fg:#f1ede6;--muted:#a6a19a;--line:#2a2a2e;--panel:#1b1b1f;--accent:#ff6a3d;--accent-ink:#121214;--tc:#6f6b66;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121214;--fg:#f1ede6;--muted:#a6a19a;--line:#2a2a2e;--panel:#1b1b1f;--accent:#ff6a3d;--accent-ink:#121214;--tc:#6f6b66;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.55;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:center;padding-block:22px;border-bottom:1px solid var(--line)}
+.logo{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.02em}
+.logo span{color:var(--accent)}
+.tc{font-family:var(--mono);font-size:12px;color:var(--tc);letter-spacing:.04em}
+section{padding-block:64px;border-bottom:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:120px 1fr;gap:24px}
+@media (max-width:700px){.grid{grid-template-columns:1fr;gap:10px}}
+.grid>*{min-width:0}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,7vw,78px);line-height:.98;letter-spacing:-.03em;margin:0 0 20px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--accent)}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,4vw,40px);line-height:1.08;letter-spacing:-.02em;margin:0 0 18px;text-wrap:balance}
+p{max-width:62ch;margin:0 0 14px}
+.lede{font-size:20px;max-width:56ch}
+.muted{color:var(--muted)}
+.cta{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:var(--accent-ink);font-weight:600;padding:12px 18px;border-radius:999px;text-decoration:none;margin-top:8px}
+.cta:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.strip{margin-top:44px;border:1px solid var(--line);background:var(--panel);border-radius:14px;overflow:hidden}
+.strip-head{display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}
+.lanes{display:grid;grid-template-columns:repeat(6,1fr);min-width:720px}
+.strip-scroll{overflow-x:auto}
+.lane{padding:14px 14px 16px;border-right:1px solid var(--line)}
+.lane:last-child{border-right:0}
+.lane .role{font-family:var(--display);font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.lane.hook .role{color:var(--accent)}
+.lane .bar{height:6px;border-radius:3px;background:var(--line);margin:8px 0 12px;position:relative}
+.lane .bar i{position:absolute;inset:0;border-radius:3px;background:var(--fg);opacity:.75}
+.lane.hook .bar i{background:var(--accent);opacity:1}
+.lane small{display:block;font-size:13px;color:var(--muted);line-height:1.4}
+.lane small b{font-weight:600;color:var(--fg)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media (max-width:860px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.steps{grid-template-columns:1fr}}
+.step{min-width:0}
+.step .n{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.06em}
+.step h3{font-family:var(--display);font-size:22px;margin:4px 0 8px;letter-spacing:-.01em}
+.step p{font-size:15.5px;color:var(--muted);margin:0}
+table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr.us td{font-weight:600}
+tr.us td:first-child{color:var(--accent)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.stack{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media (max-width:860px){.stack{grid-template-columns:repeat(2,1fr)}}
+.chip{border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:0}
+.chip .k{font-family:var(--mono);font-size:12px;color:var(--tc)}
+.chip .v{font-weight:600;margin-top:2px}
+.chip small{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+.founders{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:760px){.founders{grid-template-columns:1fr}}
+.f{min-width:0}
+.f h3{font-family:var(--display);font-size:24px;margin:0 0 2px;letter-spacing:-.01em}
+.f .role{font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.f p{font-size:15px;color:var(--muted);margin-top:8px}
+.big{font-family:var(--display);font-weight:800;font-size:clamp(34px,5vw,56px);letter-spacing:-.03em;line-height:1;margin:0 0 8px}
+.email{font-family:var(--mono);font-size:15px;user-select:all;border:1px dashed var(--line);padding:8px 12px;border-radius:8px;display:inline-block}
+footer{padding-block:28px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.lane.hook .bar i{animation:pulse 2.4s ease-in-out infinite}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="logo">Ad<span>ora</span></div>
+  <div class="tc">v0.3.0 · macOS · runs on your machine</div>
+</header>
+
+<section>
+  <div class="grid">
+    <div class="tc">00:00.0</div>
+    <div>
+      <h1>Film 30 clips.<br>Post <em>100 ads</em>.</h1>
+      <p class="lede">Adora finds the short videos already winning in your niche, tells you exactly what to film, and cuts your takes into a hundred finished variations. Scripted, voiced, captioned, scored, dubbed, posted. Real footage of your real product. Zero editors. Zero AI slop.</p>
+      <a class="cta" href="#access">Request early access</a>
+      <div class="strip" aria-label="A format broken into sections">
+        <div class="strip-head"><span class="tc">FORMAT 014 · 27.0s · 61K likes · remade for your product</span><span class="tc">you film · you say</span></div>
+        <div class="strip-scroll"><div class="lanes">
+          <div class="lane hook"><div class="role">Hook</div><div class="bar"><i></i></div><small><b>0.0 to 0.8s.</b> Phone on the nightstand, alarm ringing, hand slaps it.<br>"I have not snoozed in 41 days."</small></div>
+          <div class="lane"><div class="role">Problem</div><div class="bar"><i></i></div><small><b>0.8 to 4s.</b> Back in bed, eyes shut.<br>"Every alarm app lets you cheat."</small></div>
+          <div class="lane"><div class="role">Reveal</div><div class="bar"><i></i></div><small><b>4 to 7s.</b> Screen close up, app open.<br>"This one makes you do push ups."</small></div>
+          <div class="lane"><div class="role">Demo</div><div class="bar"><i></i></div><small><b>7 to 17s.</b> Floor, camera low, five reps counted on screen.<br>"It counts them with the camera."</small></div>
+          <div class="lane"><div class="role">Proof</div><div class="bar"><i></i></div><small><b>17 to 23s.</b> Streak screen, 41 days.<br>"Day 41. Never been late once."</small></div>
+          <div class="lane"><div class="role">CTA</div><div class="bar"><i></i></div><small><b>23 to 27s.</b> App icon, name on screen.<br>"Link in bio. Try it tomorrow morning."</small></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="grid">
+    <div class="tc">00:27.0</div>
+    <div>
+      <h2>Everyone knows how to film their product. Nobody knows what to film.</h2>
+      <p>Short video is the cheapest acquisition channel on earth and it is a numbers game. Brands that post many variations and keep what works win. Every variation costs an editor, a voiceover, captions, music and a translation, so small businesses post one video a week with a guessed hook and learn nothing.</p>
+      <p>Agencies charge $2,000 to $5,000 a month. UGC creators charge $150 to $500 a video. AI avatar tools make footage that audiences and algorithms are learning to reject. General editors like CapCut cut for cinema, not for conversion. Adora is the first editor built for one job: find the structure that is converting this week, and cut your footage into it, a hundred times.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="grid">
+    <div class="tc">01:00.0</div>
+    <div>
+      <h2>Four steps. One afternoon of filming becomes weeks of posting.</h2>
+      <div class="steps">
+        <div class="step"><div class="n">01 RESEARCH</div><h3>Finds what is winning</h3><p>Write a two line brief. Adora looks up your competitors in the App Store, then digs through every one of their TikTok accounts and hashtags for videos with 50,000+ likes from the last two months. A local vision model reads each one and breaks it into sections: hook, problem, reveal, demo, proof, CTA.</p></div>
+        <div class="step"><div class="n">02 FILM</div><h3>Tells you the shot</h3><p>Every section becomes one sentence about your shot, your product doing only what the winning video did. A reference clip sits beside each one. You film a few takes on a phone. No editing skill needed.</p></div>
+        <div class="step"><div class="n">03 GENERATE</div><h3>Cuts the variations</h3><p>Drop the takes in. Adora writes the script to each section's word budget, clones a voice line by line, burns in karaoke captions, generates original music and lands the drop on the reveal, and cuts a new combination of takes every time. Finish one in the live editor, then make all the rest like it. Up to 50 a press.</p></div>
+        <div class="step"><div class="n">04 DISTRIBUTE</div><h3>Posts everywhere</h3><p>Every approved variation is dubbed into every language your accounts post in, with the same cloned voice, and scheduled across all of them. Losing formats are dropped. Winning formats get more variations.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="grid">
+    <div class="tc">02:10.0</div>
+    <div>
+      <h2>Why nothing else does this</h2>
+      <div class="tbl"><table>
+        <thead><tr><th>Option</th><th>Cost per video</th><th>Looks like real UGC</th><th>Volume</th><th>Learns what works</th></tr></thead>
+        <tbody>
+          <tr><td>Agency</td><td>$100 to $500</td><td>Yes</td><td>Low</td><td>No</td></tr>
+          <tr><td>UGC creator</td><td>$150 to $500</td><td>Yes</td><td>Low</td><td>No</td></tr>
+          <tr><td>AI avatar generators</td><td>$5 to $50</td><td>No</td><td>Medium</td><td>No</td></tr>
+          <tr><td>CapCut and friends</td><td>Hours of your time</td><td>Yes</td><td>Low</td><td>No</td></tr>
+          <tr class="us"><td>Adora</td><td>About $0</td><td>Yes</td><td>High</td><td>Yes</td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted" style="margin-top:14px;font-size:15px">Every alternative covers one step and leaves the rest to you. Adora runs research, scripting, voice, captions, music, editing, dubbing and scheduling as one loop, and records every post against its format, so it learns which structures convert in your category.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="grid">
+    <div class="tc">02:40.0</div>
+    <div>
+      <h2>Runs entirely on your laptop. No API. No key. No quota.</h2>
+      <p>Every model runs locally, so a variation costs nothing to make and your footage never leaves your machine. That is why we can price a month below one UGC video.</p>
+      <div class="stack">
+        <div class="chip"><div class="k">VISION + TEXT</div><div class="v">Qwen3-VL 8B</div><small>Reads the footage, writes the lines, scripts and translations. Served by Ollama, ~6 GB.</small></div>
+        <div class="chip"><div class="k">SPEECH</div><div class="v">faster-whisper</div><small>Transcripts of every reference, word alignment for karaoke captions.</small></div>
+        <div class="chip"><div class="k">VOICE</div><div class="v">Chatterbox</div><small>Voice cloning in 23 languages, generated line by line so every length is exact.</small></div>
+        <div class="chip"><div class="k">MUSIC</div><div class="v">ACE-Step 1.5</div><small>Original tracks per mood, beat and drop detected, cuts nudged onto the beat.</small></div>
+      </div>
+      <p class="muted" style="margin-top:16px;font-size:15px">Electron, React, TypeScript, Python sidecars, ffmpeg. 125 tests with real renders. Built in two weeks.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="grid">
+    <div class="tc">03:05.0</div>
+    <div>
+      <h2>Three founders. Friends since age six.</h2>
+      <div class="founders">
+        <div class="f"><h3>Jerry Zhou</h3><div class="role">Research engine</div><p>Brown, Applied Math and CS. AWS software engineer, return offer. USACO Gold, two time AIME qualifier. Won five pitch competitions and $25K with his last startup. Built Wakeout, the push up alarm app, and sold it with hand made UGC.</p></div>
+        <div class="f"><h3>Jack Zhou</h3><div class="role">App and pipeline</div><p>Cornell CS, AI minor. Coinbase and AWS software engineer. Shipped a distributed payments queue moving $35M and a telemetry platform across 500K+ database instances. Co wrote a geometry textbook and a Springer paper in high school.</p></div>
+        <div class="f"><h3>Dheeraj Thota</h3><div class="role">Growth and distribution</div><p>Cornell. Argonne National Laboratory researcher with two published papers. Founded an education nonprofit that reached 7,000 students with a 100 person team. Scouts for two venture funds. Fourth place, Cornell Big Idea Competition.</p></div>
+      </div>
+      <p class="muted" style="margin-top:18px;font-size:15px">Same elementary, middle and high school in Naperville, Illinois. Same regional math team. Co founded a 30 tutor company at 15. All three are leaving school to do this full time.</p>
+    </div>
+  </div>
+</section>
+
+<section id="access">
+  <div class="grid">
+    <div class="tc">03:30.0</div>
+    <div>
+      <div class="big">Get the first build.</div>
+      <p>We are onboarding a small group of founders and small business owners this month. Email us one line about what you sell.</p>
+      <span class="email">jzhou3379@gmail.com</span>
+    </div>
+  </div>
+</section>
+
+<footer><span>© 2026 Adora</span><span class="tc">Naperville, IL to San Francisco, CA</span></footer>
+</div>
+</body>
+</html>
